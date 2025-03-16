@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import Link from 'next/link';
+import NavigationButton from './features/layout/NavigationButton';
 import './globals.css';
 
 const geistSans = Geist({
@@ -34,6 +36,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* Header */}
+        <header className="w-full bg-white">
+          <div className="container mx-auto flex items-center justify-between px-2 py-4">
+            <Link href="/" className="text-lg font-medium text-black">
+              Quack ( •◡• )
+            </Link>
+            <NavigationButton />
+          </div>
+          <div className="border-b border-neutral-400"></div>
+        </header>
         {children}
       </body>
     </html>

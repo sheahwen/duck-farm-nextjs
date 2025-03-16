@@ -5,7 +5,6 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowDownRight, ArrowUp } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 const articles = [
   {
@@ -19,12 +18,6 @@ const articles = [
 ];
 
 export default function Home() {
-  const router = useRouter();
-
-  const handleQuack = () => {
-    router.push('/');
-  };
-
   const handleScrollToTech = () => {
     const techSection = document.getElementById('tech-stack');
     if (techSection) {
@@ -34,25 +27,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="w-full bg-white">
-        <div className="container mx-auto flex items-center justify-between px-4 py-6">
-          <Link
-            href="/"
-            className="text-xl font-medium text-black"
-            onClick={handleQuack}
-          >
-            Quack ( •◡• )
-          </Link>
-          <Link href="/ducks">
-            <Button className="rounded-md bg-black px-6 text-white transition-colors duration-200 hover:bg-black">
-              See my ducks
-            </Button>
-          </Link>
-        </div>
-        <div className="border-b border-neutral-400"></div>
-      </header>
-
       {/* Main Content */}
       <main className="mx-auto py-8">
         {/* Hero Section */}
@@ -140,7 +114,7 @@ export default function Home() {
 
           <div className="space-y-6">
             {articles.map((article, index) => (
-              <div id={`article-${index}`}>
+              <div key={`article-${index}`}>
                 <h3 className="font-semibold">{article.header}</h3>
                 <p className="text-gray-600">{article.content}</p>
               </div>
