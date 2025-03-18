@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import Link from 'next/link';
-import NavigationButton from './features/layout/NavigationButton';
+import NavigationButton from './features/NavigationButton';
 import './globals.css';
 
 const geistSans = Geist({

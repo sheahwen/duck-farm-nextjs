@@ -28,7 +28,8 @@ const NavigationButton = () => {
     farms: defaultConfig,
   };
   const firstPath = pathname.split('/')[1] || '';
-  const currentConfig = config[firstPath as keyof typeof config];
+  const currentConfig =
+    config[firstPath as keyof typeof config] ?? defaultConfig;
 
   return (
     <Link href={currentConfig.href}>

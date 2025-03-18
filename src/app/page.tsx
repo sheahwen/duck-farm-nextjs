@@ -1,9 +1,9 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { ArrowDownRight, ArrowUp } from 'lucide-react';
+import { Toaster } from '@/components/ui/sonner';
+import { ArrowDownRight } from 'lucide-react';
+import ImageGenerationCard from './features/ImageGenerationCard';
 
 const articles = [
   {
@@ -26,6 +26,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
+      <Toaster position="bottom-center" />
       {/* Main Content */}
       <main className="mx-auto py-8">
         {/* Hero Section */}
@@ -77,29 +78,7 @@ export default function Home() {
 
         {/* Form Section */}
         <section className="mt-12 px-10 sm:p-0">
-          <Card className="mx-auto gap-y-5 border border-black p-2 pb-6 text-center sm:max-w-100 md:max-w-140">
-            <div className="aspect-square h-full bg-yellow-50"></div>
-            <div className="relative">
-              <Textarea
-                placeholder="What kind of duck would you like to generate?"
-                className="h-27 rounded-lg border border-black pr-16 md:h-17"
-              />
-              <Button
-                variant="default"
-                size="icon"
-                className="absolute right-2 bottom-2 rounded-full bg-black p-2 hover:bg-black/90"
-              >
-                <ArrowUp className="h-4 w-4 text-white" />
-              </Button>
-            </div>
-            <div className="xs:flex-row xs:items-center xs:justify-between xs:space-y-0 flex flex-col space-y-5 text-sm sm:space-x-2">
-              <div className="flex items-center space-x-2">
-                <div className="whitespace-nowrap">Name:</div>
-                <Input className="w-40" />
-              </div>
-              <Button variant="default">Add to the farm ➡️</Button>
-            </div>
-          </Card>
+          <ImageGenerationCard />
         </section>
 
         {/* Tech Stack Section */}
