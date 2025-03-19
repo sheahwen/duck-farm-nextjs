@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Toaster } from '@/components/ui/sonner';
 import { ArrowDownRight } from 'lucide-react';
+import Image from 'next/image';
 import ImageGenerationCard from './features/ImageGenerationCard';
 
 const articles = [
@@ -51,8 +52,13 @@ export default function Home() {
 
         {/* Farm Area */}
         <section id="farm" className="mt-25 w-full">
-          <div className="aspect-video w-full border-y-2 border-black bg-[#FDFFE7]">
-            Insert the duck photos here
+          <div className="relative aspect-video bg-red-500">
+            <Image
+              src="/duck-farm.png"
+              alt="Duck Farm"
+              fill
+              className="object-cover"
+            />
           </div>
         </section>
 
