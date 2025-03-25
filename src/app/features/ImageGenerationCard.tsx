@@ -46,7 +46,6 @@ const ImageGenerationCard = () => {
     } finally {
       setTimeout(() => {
         setIsLoadingImage(false);
-        console.log('conting down');
       }, 1000);
       // setIsLoadingImage(false);
     }
@@ -76,7 +75,6 @@ const ImageGenerationCard = () => {
     // Save duck to DB
     try {
       const response = await axios.post('/api/save-duck', { name, prompt });
-      console.log(response.data);
       if (response?.data?.id) {
         toast(
           <span>
