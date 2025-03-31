@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -32,19 +33,27 @@ const NavigationButton = () => {
     config[firstPath as keyof typeof config] ?? defaultConfig;
 
   return (
-    <Link href={currentConfig.href}>
-      <Button
-        className={cn(
-          `w-32 cursor-pointer rounded-md px-6 text-sm transition-colors duration-200`,
-          currentConfig.bgColor,
-          currentConfig.fontColor,
-          currentConfig.hoverBgColor,
-          currentConfig.hoverFontColor
-        )}
+    <div className="flex gap-x-4">
+      <Link href={currentConfig.href}>
+        <Button
+          className={cn(
+            `w-32 cursor-pointer rounded-md px-6 text-sm transition-colors duration-200`,
+            currentConfig.bgColor,
+            currentConfig.fontColor,
+            currentConfig.hoverBgColor,
+            currentConfig.hoverFontColor
+          )}
+        >
+          {currentConfig.text}
+        </Button>
+      </Link>
+      <div
+        className="text-md flex h-5 w-5 cursor-pointer items-center justify-center rounded-full bg-yellow-400 p-4.5 font-bold text-gray-600"
+        onClick={() => signOut()}
       >
-        {currentConfig.text}
-      </Button>
-    </Link>
+        L
+      </div>
+    </div>
   );
 };
 
