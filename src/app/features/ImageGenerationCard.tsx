@@ -7,12 +7,8 @@ import axios from 'axios';
 import { ArrowUp, Loader2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
-import LoginDialog from './LoginDialog';
-import { useSession } from 'next-auth/react';
 
 const ImageGenerationCard = () => {
-  const { data: session } = useSession();
-
   const [prompt, setPrompt] = useState('');
   const [promptError, setPromptError] = useState<string | null>(null);
   const [name, setName] = useState('');
@@ -21,22 +17,13 @@ const ImageGenerationCard = () => {
   const [generatedUrlError, setGeneratedUrlError] = useState<string | null>(
     null
   );
-
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [isAddingDuck, setIsAddingDuck] = useState(false);
-
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const nameInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleSubmitPrompt = async () => {
-    // Authenticate user
-    if (!session) {
-      setIsDialogOpen(true);
-      return;
-    }
-
     // Validate prompt
     if (!prompt?.trim()) {
       setPromptError('What kind of duck do you want to add to the farm?');
@@ -59,7 +46,6 @@ const ImageGenerationCard = () => {
       setTimeout(() => {
         setIsLoadingImage(false);
       }, 1000);
-      // setIsLoadingImage(false);
     }
   };
 
@@ -103,105 +89,84 @@ const ImageGenerationCard = () => {
     }
   };
 
-  useEffect(() => {
-    if (promptError) {
-      textareaRef.current?.focus();
-      return;
-    }
-    if (generatedUrlError) {
-      textareaRef.current?.focus();
-      return;
-    }
-    if (nameError) {
-      nameInputRef.current?.focus();
-      return;
-    }
-  }, [promptError, generatedUrlError, nameError]);
-
   return (
-    <>
-      <LoginDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} />
-
-      <Card className="mx-auto gap-y-5 border border-black p-2 pb-6 text-center sm:max-w-100 md:max-w-140">
-        <div className="aspect-square h-full bg-yellow-50">
-          {generatedUrl && (
-            <img src={generatedUrl} alt="duck" className="h-full w-full" />
+    <Card className="mx-auto max-w-2xl rounded-[25px] border-2 border-black p-8">
+      <div className="space-y-6">
+        <div>
+          <Textarea
+            ref={textareaRef}
+            placeholder="Describe the duck you want to add to the farm..."
+            className={cn(
+              'min-h-[100px] rounded-[10px] border-2 border-black p-4 text-base',
+              promptError && 'border-red-500'
+            )}
+            value={prompt}
+            onChange={(e) => {
+              setPrompt(e.target.value);
+              setPromptError(null);
+            }}
+          />
+          {promptError && (
+            <p className="mt-2 text-sm text-red-500">{promptError}</p>
           )}
         </div>
 
         <div>
-          <div className="relative">
-            <Textarea
-              placeholder="What kind of duck would you like to generate?"
-              className={cn(
-                `h-27 rounded-lg border pr-16 md:h-17`,
-                generatedUrlError || promptError
-                  ? 'border-2 border-orange-400'
-                  : 'border-black'
-              )}
-              ref={textareaRef}
-              value={prompt}
-              onChange={(e) => {
-                setPromptError(null);
-                setGeneratedUrlError(null);
-                setPrompt(e.target.value);
-              }}
-            />
-            <Button
-              variant="default"
-              type="button"
-              size="icon"
-              className={
-                'pointer-events-auto absolute right-2 bottom-2 z-10 rounded-full bg-gradient-to-br from-black via-gray-800 to-black p-2 transition-all duration-300 hover:cursor-pointer hover:from-yellow-400 hover:via-orange-300 hover:to-orange-500'
-              }
-              onClick={handleSubmitPrompt}
-              disabled={isLoadingImage}
-            >
-              {isLoadingImage ? (
-                <Loader2 className="h-4 w-4 animate-spin text-white" />
-              ) : (
-                <ArrowUp className="h-4 w-4 text-white" />
-              )}
-            </Button>
-          </div>
-          {(promptError || generatedUrlError) && (
-            <div className="mt-1 text-left text-xs text-orange-600">
-              {promptError || generatedUrlError}
-            </div>
+          <Input
+            ref={nameInputRef}
+            placeholder="Give your duck a name..."
+            className={cn(
+              'rounded-[10px] border-2 border-black p-4 text-base',
+              nameError && 'border-red-500'
+            )}
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+              setNameError(null);
+            }}
+          />
+          {nameError && (
+            <p className="mt-2 text-sm text-red-500">{nameError}</p>
           )}
         </div>
 
-        <div className="xs:flex-row xs:items-center xs:justify-between xs:space-y-0 flex flex-col space-y-5 text-sm sm:space-x-2">
-          <div className="">
-            <div className="flex items-center space-x-2">
-              <div className="whitespace-nowrap">Name:</div>
-              <Input
-                className={cn(
-                  'w-40',
-                  nameError ? 'border-2 border-orange-400' : 'border-black'
-                )}
-                ref={nameInputRef}
-                onChange={(e) => {
-                  setNameError(null);
-                  setName(e.target.value);
-                }}
-              />
-            </div>
-            <div className="mt-1 text-left text-xs text-orange-600">
-              {nameError}
-            </div>
-          </div>
+        <div className="flex justify-end gap-x-4">
           <Button
-            variant="default"
-            className={cn('cursor-pointer', isAddingDuck ? '' : '')}
-            onClick={handleAddDuck}
-            disabled={isAddingDuck}
+            variant="outline"
+            className="rounded-[10px] border-2 border-black px-6 py-2"
+            onClick={handleSubmitPrompt}
+            disabled={isLoadingImage}
           >
-            Add to the farm ➡️
+            {isLoadingImage ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Generating...
+              </>
+            ) : (
+              <>
+                Generate Image
+                <ArrowUp className="ml-2" />
+              </>
+            )}
+          </Button>
+
+          <Button
+            className="rounded-[10px] bg-black px-6 py-2 text-white"
+            onClick={handleAddDuck}
+            disabled={isAddingDuck || !generatedUrl}
+          >
+            {isAddingDuck ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Adding...
+              </>
+            ) : (
+              'Add to Farm'
+            )}
           </Button>
         </div>
-      </Card>
-    </>
+      </div>
+    </Card>
   );
 };
 

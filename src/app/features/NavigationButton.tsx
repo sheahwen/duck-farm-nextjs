@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -47,12 +46,6 @@ const NavigationButton = () => {
           {currentConfig.text}
         </Button>
       </Link>
-      <div
-        className="text-md flex h-5 w-5 cursor-pointer items-center justify-center rounded-full bg-yellow-400 p-4.5 font-bold text-gray-600"
-        onClick={() => signOut()}
-      >
-        L
-      </div>
     </div>
   );
 };
