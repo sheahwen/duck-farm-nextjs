@@ -23,7 +23,18 @@ const ImageGenerationCard = () => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const nameInputRef = useRef<HTMLInputElement | null>(null);
 
+  const handleTextareaKeyDown = (
+    e: React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmitPrompt();
+    }
+  };
+
   const handleSubmitPrompt = async () => {
+    if (isLoadingImage) return;
+
     // Validate prompt
     if (!prompt?.trim()) {
       setPromptError('What kind of duck do you want to add to the farm?');
@@ -110,20 +121,32 @@ const ImageGenerationCard = () => {
             <rect x="5" y="8.5" width="1" height="1" fill="#000000" />
           </svg>
         </div>
-        <div>
-          <Textarea
-            ref={textareaRef}
-            placeholder="Describe the duck you want to add to the farm"
-            className={cn(
-              'min-h-[100px] rounded-[10px] border-2 border-black p-4 text-base',
-              promptError && 'border-red-500'
+        <div className="">
+          <div className="relative">
+            <Textarea
+              ref={textareaRef}
+              placeholder="Describe the duck you want to add to the farm"
+              className={cn(
+                'min-h-[100px] rounded-[10px] border-2 border-black p-4 pr-14 text-base',
+                promptError && 'border-red-500'
+              )}
+              value={prompt}
+              onChange={(e) => {
+                setPrompt(e.target.value);
+                setPromptError(null);
+              }}
+              onKeyDown={handleTextareaKeyDown}
+            />
+            {isLoadingImage ? (
+              <Loader2 className="absolute right-0 bottom-0 mr-2 mb-2 h-10 w-10 animate-spin rounded-full bg-gray-500 p-2.5 text-white" />
+            ) : (
+              <ArrowUp
+                onClick={handleSubmitPrompt}
+                className="absolute right-0 bottom-0 mr-2 mb-2 h-10 w-10 cursor-pointer rounded-full bg-black p-2.5 text-white focus:outline-4 focus:outline-gray-600/40"
+                tabIndex={0}
+              />
             )}
-            value={prompt}
-            onChange={(e) => {
-              setPrompt(e.target.value);
-              setPromptError(null);
-            }}
-          />
+          </div>
           {promptError && (
             <p className="mt-2 text-sm text-red-500">{promptError}</p>
           )}
@@ -149,25 +172,6 @@ const ImageGenerationCard = () => {
         </div>
 
         <div className="flex justify-end gap-x-4">
-          <Button
-            variant="outline"
-            className="rounded-[10px] border-2 border-black px-6 py-2"
-            onClick={handleSubmitPrompt}
-            disabled={isLoadingImage}
-          >
-            {isLoadingImage ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Generating...
-              </>
-            ) : (
-              <>
-                Generate Image
-                <ArrowUp className="ml-2" />
-              </>
-            )}
-          </Button>
-
           <Button
             className="rounded-[10px] bg-black px-6 py-2 text-white"
             onClick={handleAddDuck}
