@@ -9,9 +9,19 @@ export async function POST(req: Request) {
   const { prompt } = await req.json();
 
   try {
+    // Sanitize prompt
+    if (!prompt.toLowerCase().includes('duck')) {
+      return NextResponse.json(
+        { error: "Hmmm it doesn't look like you mentioned a duck" },
+        { status: 400 }
+      );
+    }
+
+    const editedPrompt = `${prompt}. Generate the image in modern pixel art style. Remove the background.`;
+
     const image = await openai.images.generate({
       model: 'dall-e-2',
-      prompt,
+      prompt: editedPrompt,
       n: 1,
       size: '512x512',
     });
