@@ -5,7 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import axios from 'axios';
 import { ArrowUp, Loader2 } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 
 const ImageGenerationCard = () => {
@@ -92,10 +92,28 @@ const ImageGenerationCard = () => {
   return (
     <Card className="mx-auto max-w-2xl rounded-[25px] border-2 border-black p-8">
       <div className="space-y-6">
+        <div className="flex aspect-auto w-full items-center justify-center rounded-lg border-2 border-black">
+          <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 12 12"
+            xmlns="http://www.w3.org/2000/svg"
+            shapeRendering="crispEdges"
+          >
+            <rect x="4" y="2.5" width="1" height="1" fill="#000000" />
+            <rect x="5" y="2.5" width="1" height="1" fill="#000000" />
+            <rect x="6" y="2.5" width="1" height="1" fill="#000000" />
+            <rect x="7" y="3.5" width="1" height="1" fill="#000000" />
+            <rect x="7" y="4.5" width="1" height="1" fill="#000000" />
+            <rect x="6" y="5.5" width="1" height="1" fill="#000000" />
+            <rect x="5" y="6.5" width="1" height="1" fill="#000000" />
+            <rect x="5" y="8.5" width="1" height="1" fill="#000000" />
+          </svg>
+        </div>
         <div>
           <Textarea
             ref={textareaRef}
-            placeholder="Describe the duck you want to add to the farm..."
+            placeholder="Describe the duck you want to add to the farm"
             className={cn(
               'min-h-[100px] rounded-[10px] border-2 border-black p-4 text-base',
               promptError && 'border-red-500'
