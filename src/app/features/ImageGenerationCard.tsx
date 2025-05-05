@@ -49,9 +49,11 @@ const ImageGenerationCard = () => {
 
       setGeneratedUrl(response.data.imageUrl);
       setGeneratedUrlError(null);
-    } catch (error) {
+    } catch (error: any) {
+      const description =
+        error?.response?.data?.error || 'An error has occured';
       toast.error('Unable to generate image at the moment', {
-        description: 'An error has occured',
+        description,
       });
     } finally {
       setTimeout(() => {
