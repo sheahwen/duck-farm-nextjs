@@ -6,6 +6,7 @@ import { Toaster } from '@/components/ui/sonner';
 import { ArrowDownRight } from 'lucide-react';
 import Image from 'next/image';
 import ImageGenerationCard from './ImageGenerationCard';
+import Farm from './Farm';
 
 const articles = [
   {
@@ -53,14 +54,7 @@ export default function HomePage() {
 
         {/* Farm Area */}
         <section id="farm" className="mt-25 w-full">
-          <div className="relative aspect-video bg-red-500">
-            <Image
-              src="/duck-farm.png"
-              alt="Duck Farm"
-              fill
-              className="object-cover"
-            />
-          </div>
+          <Farm />
         </section>
 
         {/* Stats Section */}
