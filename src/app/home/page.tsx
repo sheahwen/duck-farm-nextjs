@@ -1,11 +1,8 @@
-'use client';
-
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Toaster } from '@/components/ui/sonner';
-import { ArrowDownRight } from 'lucide-react';
 import Farm from './Farm';
 import ImageGenerationCard from './ImageGenerationCard';
+import ScrollToTechButton from './ScrollToTechButton';
 
 const articles = [
   {
@@ -18,14 +15,14 @@ const articles = [
   },
 ];
 
-export default function HomePage() {
-  const handleScrollToTech = () => {
-    const techSection = document.getElementById('tech-stack');
-    if (techSection) {
-      techSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+const stats = [
+  { label: 'DUCKS OWNED', value: '28' },
+  { label: 'VISITS', value: '160' },
+  { label: 'DAYS TO TODAY', value: '31' },
+  { label: 'NUMBER OF VISITS', value: '18,873' },
+];
 
+export default function HomePage() {
   return (
     <div className="min-h-screen bg-white">
       <Toaster position="bottom-center" />
@@ -41,14 +38,7 @@ export default function HomePage() {
             <br />
             Scroll to the 🦆 for the tech stack used and to visit other farms.
           </p>
-          <Button
-            variant="outline"
-            className="mt-6 rounded-[5px] border border-black px-8 py-5 md:mt-10"
-            onClick={handleScrollToTech}
-          >
-            I want to know the tech
-            <ArrowDownRight className="-ml-1" />
-          </Button>
+          <ScrollToTechButton />
         </section>
 
         {/* Farm Area */}
@@ -58,12 +48,7 @@ export default function HomePage() {
 
         {/* Stats Section */}
         <section className="mt-10 grid grid-cols-1 gap-8 p-10 sm:grid-cols-2 md:grid-cols-4">
-          {[
-            { label: 'DUCKS OWNED', value: '28' },
-            { label: 'VISITS', value: '160' },
-            { label: 'DAYS TO TODAY', value: '31' },
-            { label: 'NUMBER OF VISITS', value: '18,873' },
-          ].map((stat, index) => (
+          {stats.map((stat, index) => (
             <Card
               key={index}
               className="col-span-1 rounded-[25px] border-2 border-black px-6 py-6"
