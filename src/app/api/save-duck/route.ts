@@ -1,5 +1,5 @@
-// src/app/api/save-duck/route.ts
-import { HARDCODED_USER_ID } from '@/app/utils/contants';
+import { APP_NAME } from '@/app/utils/contants';
+import { currentUser } from '@clerk/nextjs/server';
 import axios from 'axios';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
@@ -15,10 +15,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const user = await currentUser();
+    if (!user?.id) {
+      return NextResponse.json({ error: 'User not found' }, { status: 401 });
+    }
+
     const response = await axios.post('http://localhost:3001/api/ducks', {
       name,
       description: prompt,
-      userId: HARDCODED_USER_ID,
+      created_by: APP_NAME,
+      userId: user?.id,
     });
 
     return NextResponse.json({ ...response.data });

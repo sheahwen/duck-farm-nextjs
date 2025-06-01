@@ -44,8 +44,8 @@ const ImageGenerationCard = () => {
 
     try {
       setIsLoadingImage(true);
-      // const response = await axios.post('/api/generate-image', { prompt });
-      const response = { data: { imageUrl: 'abcdef' } };
+      const response = await axios.post('/api/generate-image', { prompt });
+      // const response = { data: { imageUrl: 'abcdef' } };
 
       setGeneratedUrl(response.data.imageUrl);
       setGeneratedUrlError(null);
@@ -106,22 +106,30 @@ const ImageGenerationCard = () => {
     <Card className="mx-auto max-w-2xl rounded-[25px] border-2 border-black p-8">
       <div className="space-y-6">
         <div className="flex aspect-auto w-full items-center justify-center rounded-lg border-2 border-black">
-          <svg
-            width="100%"
-            height="100%"
-            viewBox="0 0 12 12"
-            xmlns="http://www.w3.org/2000/svg"
-            shapeRendering="crispEdges"
-          >
-            <rect x="4" y="2.5" width="1" height="1" fill="#000000" />
-            <rect x="5" y="2.5" width="1" height="1" fill="#000000" />
-            <rect x="6" y="2.5" width="1" height="1" fill="#000000" />
-            <rect x="7" y="3.5" width="1" height="1" fill="#000000" />
-            <rect x="7" y="4.5" width="1" height="1" fill="#000000" />
-            <rect x="6" y="5.5" width="1" height="1" fill="#000000" />
-            <rect x="5" y="6.5" width="1" height="1" fill="#000000" />
-            <rect x="5" y="8.5" width="1" height="1" fill="#000000" />
-          </svg>
+          {generatedUrl ? (
+            <img
+              src={generatedUrl}
+              alt="Generated duck"
+              className="h-full w-full rounded-lg object-cover"
+            />
+          ) : (
+            <svg
+              width="100%"
+              height="100%"
+              viewBox="0 0 12 12"
+              xmlns="http://www.w3.org/2000/svg"
+              shapeRendering="crispEdges"
+            >
+              <rect x="4" y="2.5" width="1" height="1" fill="#000000" />
+              <rect x="5" y="2.5" width="1" height="1" fill="#000000" />
+              <rect x="6" y="2.5" width="1" height="1" fill="#000000" />
+              <rect x="7" y="3.5" width="1" height="1" fill="#000000" />
+              <rect x="7" y="4.5" width="1" height="1" fill="#000000" />
+              <rect x="6" y="5.5" width="1" height="1" fill="#000000" />
+              <rect x="5" y="6.5" width="1" height="1" fill="#000000" />
+              <rect x="5" y="8.5" width="1" height="1" fill="#000000" />
+            </svg>
+          )}
         </div>
         <div className="">
           <div className="relative">
@@ -154,10 +162,11 @@ const ImageGenerationCard = () => {
           )}
         </div>
 
-        <div>
+        <div className="flex items-center gap-x-2">
+          <div>Name:</div>
           <Input
             ref={nameInputRef}
-            placeholder="Give your duck a name..."
+            placeholder="Give your duck a name"
             className={cn(
               'rounded-[10px] border-2 border-black p-4 text-base',
               nameError && 'border-red-500'
@@ -177,11 +186,11 @@ const ImageGenerationCard = () => {
           <Button
             className="rounded-[10px] bg-black px-6 py-2 text-white"
             onClick={handleAddDuck}
-            disabled={isAddingDuck || !generatedUrl}
+            disabled={isLoadingImage || isAddingDuck || !generatedUrl}
           >
             {isAddingDuck ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin" />
                 Adding...
               </>
             ) : (
