@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Toaster } from '@/components/ui/sonner';
 import { ArrowDownRight } from 'lucide-react';
 import Image from 'next/image';
-import ImageGenerationCard from '../features/ImageGenerationCard';
+import ImageGenerationCard from './ImageGenerationCard';
 
 const articles = [
   {

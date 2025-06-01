@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import Link from 'next/link';
 import { ClerkProvider } from '@clerk/nextjs';
-import AuthButtons from './features/AuthButtons';
+import AuthButtons from './layout/AuthButtons';
 import './globals.css';
 
 const geistSans = Geist({
