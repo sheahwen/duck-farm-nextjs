@@ -17,7 +17,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const editedPrompt = `${prompt}. Generate the image in modern pixel art style. Remove the background.`;
+    const editedPrompt = `${prompt}. Generate the image in modern pixel art style.`;
 
     const image = await openai.images.generate({
       model: 'dall-e-2',
