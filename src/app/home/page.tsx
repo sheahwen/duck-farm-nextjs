@@ -4,9 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Toaster } from '@/components/ui/sonner';
 import { ArrowDownRight } from 'lucide-react';
-import Image from 'next/image';
-import ImageGenerationCard from './ImageGenerationCard';
 import Farm from './Farm';
+import ImageGenerationCard from './ImageGenerationCard';
 
 const articles = [
   {
