@@ -85,13 +85,23 @@ const ImageGenerationCard = () => {
 
     // Save duck to DB
     try {
-      const response = await axios.post('/api/save-duck', { name, prompt });
+      const response = await axios.post('/api/save-duck', {
+        name,
+        prompt,
+        imageUrl: generatedUrl,
+      });
+
       if (response?.data?.id) {
         toast(
           <span>
             🦆 <strong>{response?.data?.name}</strong> has joined the farm!
           </span>
         );
+
+        // Clear the form after successful save
+        setPrompt('');
+        setName('');
+        setGeneratedUrl(null);
       }
     } catch (error) {
       toast.error(`Unable to add ${name} to the farm`, {

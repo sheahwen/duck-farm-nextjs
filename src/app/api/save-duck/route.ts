@@ -6,11 +6,11 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, prompt } = await req.json();
+    const { name, prompt, imageUrl } = await req.json();
 
-    if (!name || !prompt) {
+    if (!name || !prompt || !imageUrl) {
       return NextResponse.json(
-        { error: 'Missing name or prompt' },
+        { error: 'Missing name, prompt, or image URL' },
         { status: 400 }
       );
     }
@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
     const response = await axios.post('http://localhost:3001/api/ducks', {
       name,
       description: prompt,
+      imageUrl,
       created_by: APP_NAME,
       userId: user?.id,
     });
