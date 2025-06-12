@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -32,6 +34,15 @@ const ImageGenerationCard = () => {
     }
   };
 
+  const handleAxiosError = (error: any, fallbackMessage: string) => {
+    let errorMessage =
+      error?.response?.data?.error || error?.message || fallbackMessage;
+    if (typeof errorMessage === 'object') {
+      errorMessage = JSON.stringify(errorMessage);
+    }
+    return errorMessage;
+  };
+
   const handleSubmitPrompt = async () => {
     if (isLoadingImage) return;
 
@@ -50,10 +61,9 @@ const ImageGenerationCard = () => {
       setGeneratedUrl(response.data.imageUrl);
       setGeneratedUrlError(null);
     } catch (error: any) {
-      const description =
-        error?.response?.data?.error || 'An error has occured';
+      const errorMessage = handleAxiosError(error, 'An error has occurred');
       toast.error('Unable to generate image at the moment', {
-        description,
+        description: errorMessage,
       });
     } finally {
       setTimeout(() => {
@@ -68,7 +78,7 @@ const ImageGenerationCard = () => {
     // Validation
     const isGeneratedUrlEmpty = !generatedUrl?.trim();
     const isNameEmpty = !name?.trim();
-    const isNameInvalid = !/^[a-zA-Z0-9]+$/.test(name);
+    const isNameInvalid = !/^[a-zA-Z0-9\s\-_]+$/.test(name);
     if (isGeneratedUrlEmpty) {
       setGeneratedUrlError('Please generate a duck to add to the farm.');
     }
@@ -103,9 +113,10 @@ const ImageGenerationCard = () => {
         setName('');
         setGeneratedUrl(null);
       }
-    } catch (error) {
+    } catch (error: any) {
+      const errorMessage = handleAxiosError(error, 'An error has occurred');
       toast.error(`Unable to add ${name} to the farm`, {
-        description: 'An error has occured',
+        description: errorMessage,
       });
     } finally {
       setIsAddingDuck(false);
@@ -115,7 +126,7 @@ const ImageGenerationCard = () => {
   return (
     <Card className="mx-auto max-w-2xl rounded-[25px] border-2 border-black p-8">
       <div className="space-y-6">
-        <div className="flex aspect-auto w-full items-center justify-center rounded-lg border-2 border-black">
+        <div className="flex aspect-square w-full items-center justify-center rounded-lg border-2 border-black">
           {generatedUrl ? (
             <img
               src={generatedUrl}
@@ -173,23 +184,25 @@ const ImageGenerationCard = () => {
         </div>
 
         <div className="flex items-center gap-x-2">
-          <div>Name:</div>
-          <Input
-            ref={nameInputRef}
-            placeholder="Give your duck a name"
-            className={cn(
-              'rounded-[10px] border-2 border-black p-4 text-base',
-              nameError && 'border-red-500'
+          <div className={nameError ? 'pb-5' : ''}>Name:</div>
+          <div className="m-auto w-full">
+            <Input
+              ref={nameInputRef}
+              placeholder="Give your duck a name"
+              className={cn(
+                'rounded-[10px] border-2 border-black p-4 text-base',
+                nameError && 'border-red-500'
+              )}
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+                setNameError(null);
+              }}
+            />
+            {nameError && (
+              <p className="mt-1 text-sm text-red-500">{nameError}</p>
             )}
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-              setNameError(null);
-            }}
-          />
-          {nameError && (
-            <p className="mt-2 text-sm text-red-500">{nameError}</p>
-          )}
+          </div>
         </div>
 
         <div className="flex justify-end gap-x-4">

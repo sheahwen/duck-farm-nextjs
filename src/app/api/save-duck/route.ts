@@ -17,15 +17,18 @@ export async function POST(req: NextRequest) {
 
     const user = await currentUser();
     if (!user?.id) {
-      return NextResponse.json({ error: 'User not found' }, { status: 401 });
+      return NextResponse.json(
+        { error: 'User session not found. Please login to continue.' },
+        { status: 401 }
+      );
     }
 
     const response = await axios.post('http://localhost:3001/api/ducks', {
       name,
       description: prompt,
-      imageUrl,
+      image_url: imageUrl,
       created_by: APP_NAME,
-      userId: user?.id,
+      user_id: user?.id,
     });
 
     return NextResponse.json({ ...response.data });
