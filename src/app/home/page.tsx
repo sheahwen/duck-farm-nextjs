@@ -3,17 +3,7 @@ import { Toaster } from '@/components/ui/sonner';
 import Farm from './Farm';
 import ImageGenerationCard from './ImageGenerationCard';
 import ScrollToTechButton from './ScrollToTechButton';
-
-const articles = [
-  {
-    header: 'header1',
-    content: 'content1',
-  },
-  {
-    header: 'header2',
-    content: 'content2',
-  },
-];
+import TechStack from './TechStack';
 
 const stats = [
   { label: 'DUCKS OWNED', value: '28' },
@@ -68,21 +58,7 @@ export default function HomePage() {
 
         {/* Tech Stack Section */}
         <section id="tech-stack" className="mt-20 bg-gray-50 p-8">
-          <h2 className="text-2xl font-bold">Tech stack</h2>
-          <p className="py-4 text-gray-600">
-            This app is built with <b>NextJS version 15</b> with{' '}
-            <b>BetterAuth</b>. The API is built with GraphQL and the DB is SQL.
-            It is hosted on Vercel.
-          </p>
-
-          <div className="space-y-6">
-            {articles.map((article, index) => (
-              <div key={`article-${index}`}>
-                <h3 className="font-semibold">{article.header}</h3>
-                <p className="text-gray-600">{article.content}</p>
-              </div>
-            ))}
-          </div>
+          <TechStack />
         </section>
       </main>
     </div>
