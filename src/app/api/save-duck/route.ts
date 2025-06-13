@@ -1,6 +1,6 @@
 import { APP_NAME } from '@/app/utils/contants';
 import { currentUser } from '@clerk/nextjs/server';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
@@ -32,10 +32,25 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ ...response.data });
-  } catch (error: any) {
-    console.error('Error saving duck:', error.response);
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      console.error(
+        'Error saving duck:',
+        error.response?.data || error.message
+      );
+      return NextResponse.json(
+        {
+          error: 'Failed to save duck to backend',
+          details: error.response?.data || error.message,
+        },
+        { status: error.response?.status || 500 }
+      );
+    }
+
+    // Handle non-axios errors
+    console.error('Unexpected error saving duck:', error);
     return NextResponse.json(
-      { error: 'Failed to save duck to backend' },
+      { error: 'An unexpected error occurred while saving the duck' },
       { status: 500 }
     );
   }

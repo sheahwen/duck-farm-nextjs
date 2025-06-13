@@ -8,7 +8,7 @@ const Farm = async ({ params }: { params: Promise<{ id: string }> }) => {
       {/* Main Content */}
       <main className="flex-1 px-6 py-12">
         <div className="mx-auto max-w-4xl">
-          <h1 className="mb-2 text-4xl font-bold">&lt;Name&gt;'s ducks</h1>
+          <h1 className="mb-2 text-4xl font-bold">&lt;Name&gt;&apos;s ducks</h1>
           <p className="mb-10 max-w-2xl text-gray-700">
             You have a total of 10 ducks.
           </p>

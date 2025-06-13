@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -134,22 +135,29 @@ const ImageGenerationCard = () => {
               className="h-full w-full rounded-lg object-cover"
             />
           ) : (
-            <svg
-              width="100%"
-              height="100%"
-              viewBox="0 0 12 12"
-              xmlns="http://www.w3.org/2000/svg"
-              shapeRendering="crispEdges"
-            >
-              <rect x="4" y="2.5" width="1" height="1" fill="#000000" />
-              <rect x="5" y="2.5" width="1" height="1" fill="#000000" />
-              <rect x="6" y="2.5" width="1" height="1" fill="#000000" />
-              <rect x="7" y="3.5" width="1" height="1" fill="#000000" />
-              <rect x="7" y="4.5" width="1" height="1" fill="#000000" />
-              <rect x="6" y="5.5" width="1" height="1" fill="#000000" />
-              <rect x="5" y="6.5" width="1" height="1" fill="#000000" />
-              <rect x="5" y="8.5" width="1" height="1" fill="#000000" />
-            </svg>
+            <>
+              <svg
+                width="100%"
+                height="100%"
+                viewBox="0 0 12 12"
+                xmlns="http://www.w3.org/2000/svg"
+                shapeRendering="crispEdges"
+              >
+                <rect x="4" y="2.5" width="1" height="1" fill="#000000" />
+                <rect x="5" y="2.5" width="1" height="1" fill="#000000" />
+                <rect x="6" y="2.5" width="1" height="1" fill="#000000" />
+                <rect x="7" y="3.5" width="1" height="1" fill="#000000" />
+                <rect x="7" y="4.5" width="1" height="1" fill="#000000" />
+                <rect x="6" y="5.5" width="1" height="1" fill="#000000" />
+                <rect x="5" y="6.5" width="1" height="1" fill="#000000" />
+                <rect x="5" y="8.5" width="1" height="1" fill="#000000" />
+              </svg>
+              {generatedUrlError && (
+                <p className="absolute mt-2 text-sm text-red-500">
+                  {generatedUrlError}
+                </p>
+              )}
+            </>
           )}
         </div>
         <div className="">
@@ -209,7 +217,12 @@ const ImageGenerationCard = () => {
           <Button
             className="rounded-[10px] bg-black px-6 py-2 text-white"
             onClick={handleAddDuck}
-            disabled={isLoadingImage || isAddingDuck || !generatedUrl}
+            disabled={
+              isLoadingImage ||
+              isAddingDuck ||
+              !generatedUrl ||
+              !!generatedUrlError
+            }
           >
             {isAddingDuck ? (
               <>
