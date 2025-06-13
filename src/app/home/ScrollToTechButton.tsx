@@ -14,7 +14,7 @@ export default function ScrollToTechButton() {
   return (
     <Button
       variant="outline"
-      className="mt-6 rounded-[5px] border border-black px-8 py-5 md:mt-10"
+      className="mt-6 rounded-[5px] border border-black px-8 py-5 lowercase md:mt-10"
       onClick={handleScrollToTech}
     >
       I want to know the tech

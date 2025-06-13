@@ -42,7 +42,7 @@ export default function RootLayout({
           <header className="w-full bg-white">
             <div className="container mx-auto flex items-center justify-between px-2 py-4">
               <Link href="/" className="text-lg font-medium text-black">
-                Quack ( •◡• )
+                quack ( •◡• )
               </Link>
               <AuthButtons />
             </div>
