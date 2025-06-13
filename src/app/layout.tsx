@@ -1,9 +1,10 @@
+import { ClerkProvider } from '@clerk/nextjs';
+import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import Link from 'next/link';
-import { ClerkProvider } from '@clerk/nextjs';
-import AuthButtons from './layout/AuthButtons';
 import './globals.css';
+import AuthButtons from './layout/AuthButtons';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -34,6 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
+      <Analytics />
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
