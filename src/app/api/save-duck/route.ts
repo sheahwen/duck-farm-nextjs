@@ -1,4 +1,4 @@
-import { api } from '@/app/utils/api';
+import { api, BACKEND_URL } from '@/app/utils/api';
 import { APP_NAME } from '@/app/utils/contants';
 import { currentUser } from '@clerk/nextjs/server';
 import { AxiosError } from 'axios';
@@ -23,6 +23,8 @@ export async function POST(req: NextRequest) {
         { status: 401 }
       );
     }
+
+    console.log('posting to', BACKEND_URL, '/api/ducks');
 
     const response = await api.post('/api/ducks', {
       name,
