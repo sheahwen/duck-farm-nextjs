@@ -1,6 +1,7 @@
+import { api } from '@/app/utils/api';
 import { APP_NAME } from '@/app/utils/contants';
 import { currentUser } from '@clerk/nextjs/server';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
@@ -23,7 +24,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const response = await axios.post('http://localhost:3001/api/ducks', {
+    const response = await api.post('/api/ducks', {
       name,
       description: prompt,
       image_url: imageUrl,
