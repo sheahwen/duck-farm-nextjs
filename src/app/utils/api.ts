@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:3001';
