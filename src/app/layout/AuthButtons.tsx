@@ -28,8 +28,8 @@ export default function AuthButtons() {
       </SignedOut>
       <SignedIn>
         <UserButton />
+        <NavigationButton />
       </SignedIn>
-      <NavigationButton />
     </div>
   );
 }

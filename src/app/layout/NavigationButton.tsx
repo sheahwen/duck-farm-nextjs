@@ -2,11 +2,13 @@
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const NavigationButton = () => {
   const pathname = usePathname();
+  const { user } = useUser();
 
   const defaultConfig = {
     href: '/',
@@ -18,7 +20,7 @@ const NavigationButton = () => {
   };
   const config = {
     '': {
-      href: '/farms/1',
+      href: `/farms/${user?.id || '1'}`,
       bgColor: 'bg-black',
       fontColor: 'text-white',
       hoverBgColor: 'hover:bg-black',
@@ -36,7 +38,7 @@ const NavigationButton = () => {
       <Link href={currentConfig.href}>
         <Button
           className={cn(
-            `w-32 cursor-pointer rounded-md px-6 text-sm transition-colors duration-200`,
+            `w-32 cursor-pointer rounded-md px-6 text-sm transition-colors duration-200 hover:cursor-pointer`,
             currentConfig.bgColor,
             currentConfig.fontColor,
             currentConfig.hoverBgColor,
