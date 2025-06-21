@@ -1,4 +1,8 @@
+'use client';
+
+import axios from 'axios';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 // Define the positions for 10 points as percentages of the container
 const POINT_POSITIONS = [
@@ -15,6 +19,32 @@ const POINT_POSITIONS = [
 ];
 
 const Farm = () => {
+  const [duckImages, setDuckImages] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchDuckImages = async () => {
+      try {
+        const response = await axios.get('/api/ducks');
+        const data = response.data;
+
+        if (response.status === 200) {
+          setDuckImages(data.imageUrls);
+        } else {
+          setError(data.error || 'Failed to fetch duck images');
+        }
+      } catch (err) {
+        setError('Failed to fetch duck images');
+        console.error('Error fetching duck images:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDuckImages();
+  }, []);
+
   return (
     <div className="relative aspect-video bg-red-500">
       {/* Main farm image */}
@@ -35,13 +65,27 @@ const Farm = () => {
             top: position.y,
           }}
         >
-          <Image
-            src="/duck-sleeping.webp"
-            alt={`Point ${index + 1}`}
-            width={100}
-            height={100}
-            className="h-[6vw] min-h-[20px] w-[6vw] min-w-[20px]"
-          />
+          {isLoading ? (
+            <div className="h-[6vw] min-h-[20px] w-[6vw] min-w-[20px] animate-pulse rounded-full bg-gray-300" />
+          ) : error ? (
+            <Image
+              src="/duck-sleeping.webp"
+              alt={`Point ${index + 1}`}
+              width={100}
+              height={100}
+              className="h-[6vw] min-h-[20px] w-[6vw] min-w-[20px]"
+            />
+          ) : duckImages[index] ? (
+            <Image
+              src={duckImages[index]}
+              alt={`Duck ${index + 1}`}
+              width={100}
+              height={100}
+              className="h-[6vw] min-h-[20px] w-[6vw] min-w-[20px] rounded-full object-cover"
+            />
+          ) : (
+            <></>
+          )}
         </div>
       ))}
     </div>
