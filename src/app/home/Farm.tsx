@@ -35,7 +35,9 @@ const Farm = () => {
     const fetchDuckImages = async () => {
       try {
         const response = await axios.get<DuckImagesResponse>('/api/farm');
+        console.log('response', response);
         const data = response.data;
+        console.log('data', data);
 
         if (response.status === 200) {
           setDuckImages(data.imageUrls);

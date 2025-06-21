@@ -7,8 +7,10 @@ export async function GET() {
     const response = await api.get<Duck[]>('/api/ducks');
 
     const ducks = response.data;
+    console.log('ducks', ducks);
     const imageUrls = ducks.map((duck: Duck) => duck.image_url);
 
+    console.log('imageUrls', imageUrls);
     return NextResponse.json({ imageUrls });
   } catch (error) {
     console.error('Error fetching ducks:', error);
