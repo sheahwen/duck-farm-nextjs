@@ -40,7 +40,7 @@ const NavigationButton = () => {
       <Link href={currentConfig.href}>
         <Button
           className={cn(
-            `w-32 cursor-pointer rounded-md px-6 text-sm transition-colors duration-200 hover:cursor-pointer`,
+            `w-32 cursor-pointer rounded-md px-6 text-sm lowercase transition-colors duration-200 hover:cursor-pointer`,
             currentConfig.bgColor,
             currentConfig.fontColor,
             currentConfig.hoverBgColor,

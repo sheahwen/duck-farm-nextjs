@@ -15,13 +15,11 @@ const Farm = ({ params }: { params: Promise<{ id: string }> }) => {
   useEffect(() => {
     const fetchDucks = async () => {
       const { id } = await params;
-      console.log('id', id);
 
       if (!id) return;
 
       try {
         const response = await axios.get<Duck[]>(`/api/farm/user/${id}`);
-        console.log('response', response.data);
         setDucks(response.data);
       } catch (err) {
         console.error('Error fetching ducks:', err);
@@ -45,7 +43,7 @@ const Farm = ({ params }: { params: Promise<{ id: string }> }) => {
                 {user?.firstName?.toLowerCase() || 'name'}&apos;s farm 🌱
               </h1>
               <p className="text-lg text-gray-600">
-                A cozy collection of {ducks.length} adorable ducks
+                a cozy collection of {ducks.length} adorable ducks
               </p>
             </div>
             <div className="flex items-center gap-4">
@@ -66,7 +64,7 @@ const Farm = ({ params }: { params: Promise<{ id: string }> }) => {
                 <Users className="h-5 w-5 text-orange-600" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Total Ducks</p>
+                <p className="text-sm text-gray-600">total ducks</p>
                 <p className="text-2xl font-bold text-gray-900">
                   {ducks.length}
                 </p>
@@ -80,7 +78,7 @@ const Farm = ({ params }: { params: Promise<{ id: string }> }) => {
                 <Calendar className="h-5 w-5 text-green-600" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Farm Age</p>
+                <p className="text-sm text-gray-600">farm age</p>
                 <p className="text-2xl font-bold text-gray-900">
                   {ducks.length > 0
                     ? Math.floor(
@@ -101,8 +99,8 @@ const Farm = ({ params }: { params: Promise<{ id: string }> }) => {
                 <Badge className="h-5 w-5 text-blue-600" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Status</p>
-                <p className="text-2xl font-bold text-gray-900">Active</p>
+                <p className="text-sm text-gray-600">status</p>
+                <p className="text-2xl font-bold text-gray-900">active</p>
               </div>
             </div>
           </div>
@@ -112,10 +110,10 @@ const Farm = ({ params }: { params: Promise<{ id: string }> }) => {
         <div className="space-y-8">
           <div className="text-center">
             <h2 className="mb-2 text-3xl font-bold text-gray-900">
-              Meet the Ducks
+              meet the ducks
             </h2>
             <p className="text-gray-600">
-              Each duck has its own unique personality and story
+              each duck has its own unique personality and story
             </p>
           </div>
 
@@ -135,7 +133,7 @@ const Farm = ({ params }: { params: Promise<{ id: string }> }) => {
             <div className="py-12 text-center">
               <div className="rounded-2xl border border-red-200 bg-red-50 p-8">
                 <p className="text-lg font-medium text-red-600">{error}</p>
-                <p className="mt-2 text-red-500">Please try again later</p>
+                <p className="mt-2 text-red-500">please try again later</p>
               </div>
             </div>
           ) : ducks.length === 0 ? (
@@ -143,10 +141,10 @@ const Farm = ({ params }: { params: Promise<{ id: string }> }) => {
               <div className="rounded-2xl border border-orange-200 bg-orange-50 p-8">
                 <div className="mb-4 text-6xl">🦆</div>
                 <h3 className="mb-2 text-xl font-semibold text-gray-900">
-                  No ducks yet!
+                  no ducks yet!
                 </h3>
                 <p className="text-gray-600">
-                  Start building your duck collection by adding some adorable
+                  start building your duck collection by adding some adorable
                   ducks to your farm.
                 </p>
               </div>
