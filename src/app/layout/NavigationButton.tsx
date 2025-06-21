@@ -10,8 +10,10 @@ const NavigationButton = () => {
   const pathname = usePathname();
   const { user } = useUser();
 
+  console.log('user', user);
+
   const defaultConfig = {
-    href: '/',
+    href: '/home',
     bgColor: 'bg-orange-400',
     fontColor: 'text-black',
     hoverBgColor: 'hover:bg-orange-500',
@@ -19,7 +21,7 @@ const NavigationButton = () => {
     text: 'Back to farm',
   };
   const config = {
-    '': {
+    home: {
       href: `/farms/${user?.id || '1'}`,
       bgColor: 'bg-black',
       fontColor: 'text-white',
