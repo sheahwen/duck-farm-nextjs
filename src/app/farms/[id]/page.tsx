@@ -42,7 +42,7 @@ const Farm = ({ params }: { params: Promise<{ id: string }> }) => {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="mb-2 text-4xl font-bold text-gray-900">
-                {user?.firstName?.toLowerCase() || 'name'}&apos;s Duck Farm
+                {user?.firstName?.toLowerCase() || 'name'}&apos;s farm 🌱
               </h1>
               <p className="text-lg text-gray-600">
                 A cozy collection of {ducks.length} adorable ducks
