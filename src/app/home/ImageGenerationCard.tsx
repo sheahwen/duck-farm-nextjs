@@ -104,7 +104,7 @@ const ImageGenerationCard = () => {
 
       console.log('response', response);
 
-      if (response?.data?.id) {
+      if (response?.data?._id) {
         toast(
           <span>
             🦆 <strong>{response?.data?.name}</strong> has joined the farm!
