@@ -1,16 +1,49 @@
-import { Badge } from 'lucide-react';
+'use client';
 
-const Farm = async ({ params }: { params: Promise<{ id: string }> }) => {
-  const { id } = await params;
+import { Duck } from '@/types/duck';
+import { useUser } from '@clerk/nextjs';
+import { Badge } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
+const Farm = ({ params }: { params: Promise<{ id: string }> }) => {
+  const [ducks, setDucks] = useState<Duck[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const { user } = useUser();
+
+  useEffect(() => {
+    const fetchDucks = async () => {
+      const { id } = await params;
+      console.log('id', id);
+
+      if (!id) return;
+
+      try {
+        const response = await axios.get<Duck[]>(`/api/farm/user/${id}`);
+        console.log('response', response.data);
+        setDucks(response.data);
+      } catch (err) {
+        console.error('Error fetching ducks:', err);
+        setError('Failed to fetch ducks');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDucks();
+  }, [params]);
 
   return (
     <div className="flex min-h-screen flex-col bg-yellow-50">
       {/* Main Content */}
       <main className="flex-1 px-6 py-12">
         <div className="mx-auto max-w-4xl">
-          <h1 className="mb-2 text-4xl font-bold">&lt;Name&gt;&apos;s ducks</h1>
+          <h1 className="mb-2 text-4xl font-bold">
+            {user?.firstName?.toLowerCase() || 'name'}&apos;s ducks
+          </h1>
           <p className="mb-10 max-w-2xl text-gray-700">
-            You have a total of 10 ducks.
+            you have a total of {ducks.length} ducks.
           </p>
 
           {/* Action Button */}
@@ -52,9 +85,31 @@ const Farm = async ({ params }: { params: Promise<{ id: string }> }) => {
 
           {/* Gallery */}
           <div className="mt-10 grid gap-4 space-y-2 sm:grid-cols-2 lg:grid-cols-3">
-            {Array.from({ length: Number(id) }, (v, i) => i).map((i) => (
-              <Duck index={i} key={i} />
-            ))}
+            {isLoading ? (
+              // Loading state
+              Array.from({ length: 6 }, (_, i) => (
+                <div key={i} className="animate-pulse">
+                  <div className="aspect-square rounded-2xl border border-black bg-gray-200"></div>
+                  <div className="mt-4 space-y-2">
+                    <div className="h-4 rounded bg-gray-200"></div>
+                    <div className="h-3 w-2/3 rounded bg-gray-200"></div>
+                  </div>
+                </div>
+              ))
+            ) : error ? (
+              // Error state
+              <div className="col-span-full text-center text-red-500">
+                {error}
+              </div>
+            ) : ducks.length === 0 ? (
+              // Empty state
+              <div className="col-span-full text-center text-gray-500">
+                No ducks found. Add some ducks to your farm!
+              </div>
+            ) : (
+              // Duck cards
+              ducks.map((duck) => <DuckCard key={duck._id} duck={duck} />)
+            )}
           </div>
         </div>
       </main>
@@ -64,24 +119,30 @@ const Farm = async ({ params }: { params: Promise<{ id: string }> }) => {
 
 export default Farm;
 
-const Duck = ({ index }: { index: number }) => {
-  return (
-    <>
-      <div className="" key={index}>
-        <div className="aspect-square rounded-2xl border border-black bg-gray-200"></div>
-        <div className="mt-4 space-y-2">
-          <div className="">Name</div>
-          <div className="text-sm text-gray-500">Date added</div>
-        </div>
-      </div>
+const DuckCard = ({ duck }: { duck: Duck }) => {
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  };
 
-      <div className="" key={index + 1}>
-        <div className="aspect-square rounded-2xl border border-black bg-gray-200"></div>
-        <div className="mt-4 space-y-2">
-          <div className="">Name</div>
-          <div className="text-sm text-gray-500">Date added</div>
+  return (
+    <div className="">
+      <div className="aspect-square overflow-hidden rounded-2xl border border-black bg-gray-200">
+        <img
+          src={duck.image_url}
+          alt={duck.name}
+          className="h-full w-full object-cover"
+        />
+      </div>
+      <div className="mt-4 space-y-2">
+        <div className="font-medium">{duck.name}</div>
+        <div className="text-sm text-gray-500">
+          {formatDate(duck.created_at)}
         </div>
       </div>
-    </>
+    </div>
   );
 };
