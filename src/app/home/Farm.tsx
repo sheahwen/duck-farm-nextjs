@@ -26,6 +26,8 @@ const POINT_POSITIONS = [
   { x: '88%', y: '72%' },
 ];
 
+const PLACEHOLDER_IMAGE = '/duck-sleeping.webp';
+
 const Farm = () => {
   const [duckImages, setDuckImages] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -83,21 +85,9 @@ const Farm = () => {
           {isLoading ? (
             <div className="h-[6vw] min-h-[20px] w-[6vw] min-w-[20px] animate-pulse rounded-full bg-gray-300" />
           ) : error ? (
-            <Image
-              src="/duck-sleeping.webp"
-              alt={`Point ${index + 1}`}
-              width={100}
-              height={100}
-              className="h-[6vw] min-h-[20px] w-[6vw] min-w-[20px]"
-            />
+            <DuckImage imageUrl={PLACEHOLDER_IMAGE} index={index} />
           ) : duckImages[index] ? (
-            <Image
-              src={duckImages[index]}
-              alt={`Duck ${index + 1}`}
-              width={100}
-              height={100}
-              className="h-[6vw] min-h-[20px] w-[6vw] min-w-[20px] rounded-full object-cover"
-            />
+            <DuckImage imageUrl={duckImages[index]} index={index} />
           ) : (
             <></>
           )}
@@ -108,3 +98,21 @@ const Farm = () => {
 };
 
 export default Farm;
+
+const DuckImage = ({
+  imageUrl,
+  index,
+}: {
+  imageUrl: string;
+  index: number;
+}) => {
+  return (
+    <Image
+      src={imageUrl}
+      alt={`Duck ${index + 1}`}
+      width={100}
+      height={100}
+      className="h-[6vw] min-h-[20px] w-[6vw] min-w-[20px]"
+    />
+  );
+};
