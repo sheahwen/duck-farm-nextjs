@@ -56,7 +56,7 @@ export default function RootLayout({
           {/* Footer */}
           <footer className="mx-auto mt-20 border-t border-gray-100 bg-white px-4 py-12">
             <div className="mx-auto max-w-7xl">
-              <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 {/* About Section */}
                 <div className="space-y-4">
                   <h3 className="text-sm font-medium tracking-wider text-gray-900 lowercase">
@@ -66,39 +66,6 @@ export default function RootLayout({
                     just a duck enthusiast who loves to code trying to build an
                     app
                   </p>
-                </div>
-
-                {/* Quick Links */}
-                <div className="space-y-4">
-                  <h3 className="text-sm font-medium tracking-wider text-gray-900 lowercase">
-                    quick links
-                  </h3>
-                  <ul className="space-y-3">
-                    <li>
-                      <Link
-                        href="/home"
-                        className="text-sm text-gray-600 lowercase transition-colors hover:text-gray-900"
-                      >
-                        home page
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/farms/1"
-                        className="text-sm text-gray-600 lowercase transition-colors hover:text-gray-900"
-                      >
-                        my ducks
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="https://sheahwen-portfolio.netlify.app/about-me"
-                        className="text-sm text-gray-600 lowercase transition-colors hover:text-gray-900"
-                      >
-                        ⭐️ more about me ⭐️
-                      </Link>
-                    </li>
-                  </ul>
                 </div>
 
                 {/* Other Projects */}
@@ -124,7 +91,7 @@ export default function RootLayout({
                         rel="noopener noreferrer"
                         className="text-sm text-gray-600 lowercase transition-colors hover:text-gray-900"
                       >
-                        portfolio site
+                        ⭐️ more about me ⭐️
                       </a>
                     </li>
                     <li>
@@ -134,7 +101,7 @@ export default function RootLayout({
                         rel="noopener noreferrer"
                         className="text-sm text-gray-600 lowercase transition-colors hover:text-gray-900"
                       >
-                        more on github
+                        github repo
                       </a>
                     </li>
                   </ul>
