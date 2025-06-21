@@ -24,8 +24,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    console.log('posting to', BACKEND_URL, '/api/ducks');
-
     const response = await api.post('/api/ducks', {
       name,
       description: prompt,
@@ -33,7 +31,6 @@ export async function POST(req: NextRequest) {
       created_by: APP_NAME,
       user_id: user?.id,
     });
-    console.log('response', response);
 
     return NextResponse.json({ ...response.data });
   } catch (error) {

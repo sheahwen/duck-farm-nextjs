@@ -102,8 +102,6 @@ const ImageGenerationCard = () => {
         imageUrl: generatedUrl,
       });
 
-      console.log('response', response);
-
       if (response?.data?._id) {
         toast(
           <span>
