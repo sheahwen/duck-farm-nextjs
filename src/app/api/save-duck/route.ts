@@ -1,4 +1,4 @@
-import { api, BACKEND_URL } from '@/app/utils/api';
+import { api } from '@/app/utils/api';
 import { APP_NAME } from '@/app/utils/contants';
 import { currentUser } from '@clerk/nextjs/server';
 import { AxiosError } from 'axios';
