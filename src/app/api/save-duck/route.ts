@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
       created_by: APP_NAME,
       user_id: user?.id,
     });
-    console.log('response data', response.data);
+    console.log('response', response);
 
     return NextResponse.json({ ...response.data });
   } catch (error) {
