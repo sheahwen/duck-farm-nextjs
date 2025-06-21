@@ -1,12 +1,13 @@
 import { api } from '@/app/utils/api';
+import { Duck } from '@/types/duck';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const response = await api.get('/api/ducks');
+    const response = await api.get<Duck[]>('/api/ducks');
 
     const ducks = response.data;
-    const imageUrls = ducks.map((duck: any) => duck.image_url);
+    const imageUrls = ducks.map((duck: Duck) => duck.image_url);
 
     return NextResponse.json({ imageUrls });
   } catch (error) {

@@ -4,6 +4,14 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
+interface DuckImagesResponse {
+  imageUrls: string[];
+}
+
+interface DuckImagesError {
+  error: string;
+}
+
 // Define the positions for 10 points as percentages of the container
 const POINT_POSITIONS = [
   { x: '10%', y: '47%' },
@@ -26,16 +34,21 @@ const Farm = () => {
   useEffect(() => {
     const fetchDuckImages = async () => {
       try {
-        const response = await axios.get('/api/ducks');
+        const response = await axios.get<DuckImagesResponse>('/api/farm');
         const data = response.data;
 
         if (response.status === 200) {
           setDuckImages(data.imageUrls);
         } else {
-          setError(data.error || 'Failed to fetch duck images');
+          setError('Failed to fetch duck images');
         }
       } catch (err) {
-        setError('Failed to fetch duck images');
+        if (axios.isAxiosError(err) && err.response?.data) {
+          const errorData = err.response.data as DuckImagesError;
+          setError(errorData.error || 'Failed to fetch duck images');
+        } else {
+          setError('Failed to fetch duck images');
+        }
         console.error('Error fetching duck images:', err);
       } finally {
         setIsLoading(false);
